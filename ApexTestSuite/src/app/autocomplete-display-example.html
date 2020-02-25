@@ -1,0 +1,38 @@
+<ngx-spinner></ngx-spinner>
+<form class="example-form">
+	<!-- <h1>Select Apex Class to get its Test Classes</h1> -->
+	<mat-form-field class="example-full-width">
+		<mat-label>Apex Class</mat-label>
+		<input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" />
+		<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+			(optionSelected)="onSelectionChanged($event)">
+			<mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+				{{option.Class}}
+			</mat-option>
+		</mat-autocomplete>
+	</mat-form-field>
+	<h2>Search Results</h2>
+	<div class="test-classes-table">
+		<mat-table [dataSource]="filteredTestClasses" class="mat-elevation-z8">
+
+			<!-- Name Column -->
+			<ng-container matColumnDef="TestClass">
+				<mat-header-cell *matHeaderCellDef>
+					<mat-checkbox class="example-margin"></mat-checkbox>
+					&nbsp;&nbsp;Apex Test Class Name
+				</mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					<mat-checkbox class="example-margin" (change)="cbToggled(element)"></mat-checkbox>
+					&nbsp;&nbsp;{{element}}
+				</mat-cell>
+			</ng-container>
+
+			<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+		</mat-table>
+	</div>
+</form>
+
+<mat-card>
+	{{sfdxCommand()}}
+</mat-card>
