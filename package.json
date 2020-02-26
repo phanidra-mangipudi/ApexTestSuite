@@ -48,7 +48,7 @@
     "@angular/localize": "^9.0.0",
     "@types/node": "^12.12.6",
     "codelyzer": "^5.2.0",
-    "ts-node": "^8.4.1",
+    "ts-node": "^8.6.2",
     "tslint": "^5.20.1",
     "typescript": "3.7.5"
   }
