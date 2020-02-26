@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, filter } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FirbaseService } from '../services/firbase.service';
 
@@ -40,12 +40,12 @@ export class AutocompleteDisplayExample implements OnInit {
         this.options.push({ Class: doc.data().Class, TestClasses: doc.data().TestClases });
       });
     });
+    console.log(this.options.length);
     this.spinner.hide();
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
-        map(value => typeof value === 'string' ? value : value.Class),
-        map(Classs => name ? this._filter(name) : this.options.slice())
+        map(value => this._filter(value))
       );
   }
 
@@ -55,12 +55,15 @@ export class AutocompleteDisplayExample implements OnInit {
   }
 
   private _filter(name: string): DbResult[] {
-    const filterValue = name.toLowerCase();
-    return this.options.filter(option => option.Class.toLowerCase().indexOf(filterValue) === 0);
+    if (name && name.length > 0) {
+      const filterValue = name.toLowerCase();
+      return this.options.filter(option => option.Class.toLowerCase().indexOf(filterValue) === 0);
+    } else {
+      return [];
+    }
   }
 
   onSelectionChanged(event: MatAutocompleteSelectedEvent) {
-    console.log(event.option.value.Class, this.options);
     this._selectedTestClasses = [];
     this.filteredTestClasses = this.options && this.options.find(row => row.Class === event.option.value.Class)?.TestClasses;
     console.log(this.filteredTestClasses);

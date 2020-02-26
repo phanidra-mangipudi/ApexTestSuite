@@ -14,7 +14,7 @@ import { AutocompleteDisplayExample } from './app/autocomplete-display-example';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { firebaseConfig } from 'environment';
+import { firebaseConfig } from './environments/environment';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 
