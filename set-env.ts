@@ -13,7 +13,8 @@ const envConfigFile = `export const firebaseConfig = {
    storageBucket: '${process.env.storageBucket}',
    messagingSenderId: '${process.env.messagingSenderId}',
    appId: '${process.env.appId}'
-};`;
+};
+`;
 
 console.log(colors.magenta('The file `environment.ts` will be written with the following content: \n'));
 console.log(colors.grey(envConfigFile));

@@ -31,6 +31,9 @@
 			<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 		</mat-table>
 	</div>
+	<div *ngIf="false">
+		<button mat-raised-button color="warn" (click)="performBulkUpload()" >Bulk Upload</button>
+	</div>
 </form>
 
 <mat-card>

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as data from '../data.json';
-import { TestResult } from '../models/test-result';
-import { DbResult } from '../models/db-result';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +19,7 @@ export class FirbaseService {
     let minifiedData = new Map();
     for (const val of Object.values(data.data)) {
       if (minifiedData.has(val.Class)) {
+        // tslint:disable-next-line: prefer-const
         let _temp: string[] = minifiedData.get(val.Class);
         _temp.push(val.TestClass);
         minifiedData.set(val.Class, _temp);

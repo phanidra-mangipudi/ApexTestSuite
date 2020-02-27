@@ -86,4 +86,8 @@ export class AutocompleteDisplayExample implements OnInit {
     return this._selectedTestClasses.length > 0;
   }
 
+  performBulkUpload() {
+    this.firebaseService.bulkUpload();
+  }
+
 }
