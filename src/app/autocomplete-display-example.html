@@ -18,11 +18,11 @@
 			<!-- Name Column -->
 			<ng-container matColumnDef="TestClass">
 				<mat-header-cell *matHeaderCellDef>
-					<mat-checkbox class="example-margin"></mat-checkbox>
+					<mat-checkbox class="cb-header" (change)="toggleSelection($event)"></mat-checkbox>
 					&nbsp;&nbsp;Apex Test Class Name
 				</mat-header-cell>
 				<mat-cell *matCellDef="let element">
-					<mat-checkbox class="example-margin" (change)="cbToggled(element)"></mat-checkbox>
+					<mat-checkbox class="cb-cell" (change)="cbToggled(element)"></mat-checkbox>
 					&nbsp;&nbsp;{{element}}
 				</mat-cell>
 			</ng-container>
@@ -31,7 +31,7 @@
 			<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 		</mat-table>
 	</div>
-	<div *ngIf="false">
+	<div *ngIf="true">
 		<button mat-raised-button color="warn" (click)="performBulkUpload()" >Bulk Upload</button>
 	</div>
 </form>

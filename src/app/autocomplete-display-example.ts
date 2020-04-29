@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith, filter } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { FirbaseService } from '../services/firbase.service';
-
-import { DbResult } from '../models/db-result';
-
 
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { ReadCSVService } from 'src/services/read-csv.service';
 
 /**
  * @title Display value autocomplete
@@ -23,23 +21,20 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class AutocompleteDisplayExample implements OnInit {
 
   myControl = new FormControl();
-  options: DbResult[] = [];
-  filteredOptions: Observable<DbResult[]>;
-  filteredTestClasses: string[] | undefined = [];
+  options: string[] = [];
+  filteredOptions: Observable<string[]>;
+  filteredTestClasses: string[] | undefined;
   displayedColumns: string[] = ['TestClass'];
   classes: string[];
   _selectedTestClasses: string[] = [];
+  checked_all = false;
 
-  constructor(public firebaseService: FirbaseService, private spinner: NgxSpinnerService) {
+  constructor(public readCSV: ReadCSVService, private spinner: NgxSpinnerService) {
   }
 
   async ngOnInit() {
     this.spinner.show();
-    await this.firebaseService.getRecords().subscribe(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        this.options.push({ Class: doc.data().Class, TestClasses: doc.data().TestClases });
-      });
-    });
+    this.options = await this.readCSV.getApexClasses();
     console.log(this.options.length);
     this.spinner.hide();
     this.filteredOptions = this.myControl.valueChanges
@@ -50,14 +45,14 @@ export class AutocompleteDisplayExample implements OnInit {
   }
 
 
-  displayFn(user: DbResult): string {
-    return user && user.Class ? user.Class : '';
+  displayFn(className: string): string {
+    return className && className ? className : '';
   }
 
-  private _filter(name: string): DbResult[] {
+  private _filter(name: string): string[] {
     if (name && name.length > 0) {
       const filterValue = name.toLowerCase();
-      return this.options.filter(option => option.Class.toLowerCase().indexOf(filterValue) === 0);
+      return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
     } else {
       return [];
     }
@@ -65,7 +60,8 @@ export class AutocompleteDisplayExample implements OnInit {
 
   onSelectionChanged(event: MatAutocompleteSelectedEvent) {
     this._selectedTestClasses = [];
-    this.filteredTestClasses = this.options && this.options.find(row => row.Class === event.option.value.Class)?.TestClasses;
+    // this.filteredTestClasses = this.options.find(row => row === event.option.value) !== undefined ?
+    //   this.options.find(row => row === event.option.value) : [];
     console.log(this.filteredTestClasses);
   }
 
@@ -87,7 +83,15 @@ export class AutocompleteDisplayExample implements OnInit {
   }
 
   performBulkUpload() {
-    this.firebaseService.bulkUpload();
+    // this.firebaseService.bulkUpload();
+  }
+
+  toggleSelection(event: MatCheckboxChange) {
+    console.log(event.checked);
+    const all_checkBoxes = document.querySelectorAll('.cb-cell');
+    if (event.checked) {
+      console.log(all_checkBoxes);
+    }
   }
 
 }
