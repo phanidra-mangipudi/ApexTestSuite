@@ -35,7 +35,7 @@
     "firebase": "^7.8.2",
     "fs": "0.0.1-security",
     "hammerjs": "^2.0.8",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngx-spinner": "^8.1.0",
     "nodemon": "^2.0.2",
     "rxjs": "^6.5.3",
